@@ -90,7 +90,7 @@ f_effiSigA_format['DEFAULT'] = ["l{0}[-10,10]".format(i) for i in range(1, 6 + 1
     + ["EXPR::effi_cosl('{pdf}',{args})".format(pdf=pdfL, args="{CosThetaL, " + ', '.join(["l{0}".format(i) for i in range(1, 7)]) + "}")] \
     + ["EXPR::effi_cosK('{pdf}',{args})".format(pdf=pdfK, args="{CosThetaK, " + ', '.join(["k{0}".format(i) for i in range(1, 7)]) + "}")] \
     + ["EXPR::effi_Phi('{pdf}',{args})".format(pdf=pdfP, args="{Phi, " + ', '.join(["p{0}".format(i) for i in range(1, 7)]) + "}")] \
-    + ["expr::effi_xTerm('1+hasXTerm*({xTerm})',{args})".format(xTerm=xTerm, args="{CosThetaL,CosThetaK,hasXTerm," + ','.join(["x{0}".format(i) for i in range(16)]) + "}")] \
+    + ["expr::effi_xTerm('1+hasXTerm*({xTerm})',{args})".format(xTerm=xTerm, args="{CosThetaL,CosThetaK, Phi, hasXTerm," + ','.join(["x{0}".format(i) for i in range(16)]) + "}")] \
     + ["expr::effi_sigA('effi_norm*({pdfL})*({pdfK})*({pdfP})*(1+hasXTerm*({xTerm}))', {args})".format(
         pdfL=pdfL,
         pdfK=pdfK,
@@ -105,14 +105,14 @@ f_effiSigA_format['belowJpsiA'] = ["l1[0,-0.5,0.5]", "l2[0.2,0.1,2]", "l3[0.1,0,
     + ["effi_norm[0,1]", "hasXTerm[0]"] + ["x{0}[-2,2]".format(i) for i in range(15 + 1)] \
     + ["EXPR::effi_cosl('{pdf}',{args})".format(pdf=pdfL, args="{CosThetaL," + ', '.join(["l{0}".format(i) for i in range(1, 9)]) + "}")] \
     + ["EXPR::effi_cosK('{pdf}',{args})".format(pdf=pdfK, args="{CosThetaK," + ', '.join(["k{0}".format(i) for i in range(1, 7)]) + "}")] \
-    + ["EXPR::effi_Phi('{pdf}',{args})".format(pdf=pdfK, args="{Phi," + ', '.join(["p{0}".format(i) for i in range(1, 7)]) + "}")] \
+    + ["EXPR::effi_Phi('{pdf}',{args})".format(pdf=pdfP, args="{Phi," + ', '.join(["p{0}".format(i) for i in range(1, 7)]) + "}")] \
     + ["expr::effi_xTerm('1+hasXTerm*({xTerm})',{args})".format(xTerm=xTerm, args="{CosThetaL,CosThetaK,hasXTerm," + ','.join(["x{0}".format(i) for i in range(16)]) + "}")] \
     + ["expr::effi_sigA('effi_norm*({pdfL})*({pdfK})*({pdfP})*(1+hasXTerm*({xTerm}))', {args})".format(
         pdfL=pdfL,
         pdfK=pdfK,
         pdfP=pdfP,
         xTerm=xTerm,
-        args="{CosThetaL,CosThetaK, Phi, hasXTerm, effi_norm," + ','.join(["l{0}".format(i) for i in range(1, 9)] + ["k{0}".format(i) for i in range(1, 7)] + ["x{0}".format(i) for i in range(16)]) + "}")]
+        args="{CosThetaL,CosThetaK, Phi, hasXTerm, effi_norm," + ','.join(["l{0}".format(i) for i in range(1, 9)] + ["k{0}".format(i) for i in range(1, 7)] + ["p{0}".format(i) for i in range(1, 7)] + ["x{0}".format(i) for i in range(16)]) + "}")]
 
 f_effiSigA_format['belowJpsiB'] = ["l1[0,-0.5,0.5]", "l2[0.2,0.1,2]", "l3[0.1,0,10]", "l4[-0.8,-1,-0.1]", "l5[0.5,0.1,2]", "l6[0.1,0,10]", "l7[0.8,0.1,1]", "l8[0.2,0.1,2]"] \
     + ["k{0}[-10,10]".format(i) for i in range(1, 6 + 1)] \
@@ -183,7 +183,9 @@ def buildSigA(self):
         f_sigA = ROOT.RooBtosllModel("f_sigA", "", CosThetaL, CosThetaK, Phi, wspace.var('Fl'), wspace.var('S3'), wspace.var('S4'),  wspace.var('A5'), wspace.var('A6'), wspace.var('S7'), wspace.var('A8'), wspace.var('A9'))
         getattr(wspace, 'import')(f_sigA)
         wspace.importClassCode(ROOT.RooBtosllModel.Class())
-
+    
+    print("Printing wspace")
+    wspace.Print()
     self.cfg['source']['f_sigA'] = f_sigA
 
 def buildSig(self):
@@ -405,8 +407,8 @@ def customizePDFBuilder(self):
         'wspaceTag': sharedWspaceTagString.format(binLabel=q2bins[self.process.cfg['binKey']]['label']),
         'obj': OrderedDict([
             ('effi_sigA', [buildEffiSigA]),
-            #('f_sigA', [buildSigA]),
-            #('f_sigM', [buildSigM]),
+            ('f_sigA', [buildSigA]),
+            ('f_sigM', [buildSigM]),
             #('f_sig3D', [buildSig]),  # Include f_sig2D
             #('f_bkgCombA', [buildAnalyticBkgCombA]),
             #('f_bkgCombAAltA', [buildSmoothBkgCombA]),
