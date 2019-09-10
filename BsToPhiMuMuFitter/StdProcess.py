@@ -211,7 +211,7 @@ processCfg = {
     'isBatchJob': False,
     'binKey': 'summary',
 }
-p = Process("myProcess", "testProcess", processCfg)
+p = Process("myProcess", "PlotDirectory", processCfg)
 
 dbplayer = FitDBPlayer(absInputDir=os.path.join(anaSetup.modulePath, "input", "selected"))
 p.addService("dbplayer", dbplayer)

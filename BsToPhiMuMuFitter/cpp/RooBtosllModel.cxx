@@ -19,29 +19,44 @@ ClassImp(RooBtosllModel);
 RooBtosllModel::RooBtosllModel(const char *name, const char *title, 
                        RooAbsReal& _CosThetaL,
                        RooAbsReal& _CosThetaK,
-                       RooAbsReal& _unboundAfb,
-                       RooAbsReal& _unboundFl,
-                       RooAbsReal& _fs,
-                       RooAbsReal& _transAs) :
-  RooAbsPdf(name,title), 
-  CosThetaL("CosThetaL","CosThetaL",this,_CosThetaL),
-  CosThetaK("CosThetaK","CosThetaK",this,_CosThetaK),
-  unboundAfb("unboundAfb","unboundAfb",this,_unboundAfb),
-  unboundFl("unboundFl","unboundFl",this,_unboundFl),
-  fs("fs","fs",this,_fs),
-  transAs("transAs","transAs",this,_transAs)
+                       RooAbsReal& _Phi,
+                       RooAbsReal& _Fl,
+                       RooAbsReal& _S3,
+                       RooAbsReal& _S4,
+                       RooAbsReal& _A5,
+                       RooAbsReal& _A6,
+                       RooAbsReal& _S7,
+                       RooAbsReal& _A8,
+                       RooAbsReal& _A9 ):
+    RooAbsPdf(name,title), 
+    CosThetaL("CosThetaL","CosThetaL",this,_CosThetaL),
+    CosThetaK("CosThetaK","CosThetaK",this,_CosThetaK),
+    Phi("Phi","Phi",this,_Phi),
+    Fl("Fl","Fl",this,_Fl),
+    S3("S3","S3",this,_S3),
+    S4("S4","S4",this,_S4),
+    A5("A5","A5",this,_A5),
+    A6("A6","A6",this,_A6),
+    S7("S7","S7",this,_S7),
+    A8("A8","A8",this,_A8),
+    A9("A9","A9",this,_A9)
 { 
 } 
 
 
 RooBtosllModel::RooBtosllModel(const RooBtosllModel& other, const char* name) :  
-  RooAbsPdf(other,name), 
-  CosThetaL("CosThetaL",this,other.CosThetaL),
-  CosThetaK("CosThetaK",this,other.CosThetaK),
-  unboundAfb("unboundAfb",this,other.unboundAfb),
-  unboundFl("unboundFl",this,other.unboundFl),
-  fs("fs",this,other.fs),
-  transAs("transAs",this,other.transAs)
+    RooAbsPdf(other,name), 
+    CosThetaL("CosThetaL",this,other.CosThetaL),
+    CosThetaK("CosThetaK",this,other.CosThetaK),
+    Phi("Phi",this,other.Phi),
+    Fl("Fl",this,other.Fl),
+    S3("S3",this,other.S3),
+    S4("S4",this,other.S4),
+    A5("A5",this,other.A5),
+    A6("A6",this,other.A6),
+    S7("S7",this,other.S7),
+    A8("A8",this,other.A8),
+    A9("A9",this,other.A9)
 { 
 } 
 
@@ -50,12 +65,15 @@ Double_t RooBtosllModel::evaluate() const
 { 
   // ENTER EXPRESSION IN TERMS OF VARIABLE ARGUMENTS HERE 
   // Remark: The tranAs formula in older AN is wrong, unboundFl should be replaced with fl
-  Double_t fl = 0.5+TMath::ATan(unboundFl)/TMath::Pi() ; // [0.,1.]
+/*  Double_t fl = 0.5+TMath::ATan(unboundFl)/TMath::Pi() ; // [0.,1.]
   Double_t afb = 1.5*(1.-fl)*TMath::ATan(unboundAfb)/TMath::Pi() ; // [-0.75, 0.75]
   Double_t as = 1.78*TMath::Sqrt(3.*fs*(1.-fs)*fl)*transAs ; // [-(fs+3*fl(1-fs)), fs+3*fs*(1-fs)]
 
   Double_t result = 0.5625*((0.666667*fs+1.333333*as*CosThetaK)*(1.-pow(CosThetaL,2))+(1.-fs)*(2.*fl*pow(CosThetaK,2)*(1.-pow(CosThetaL,2))+0.5*(1.-fl)*(1.-pow(CosThetaK,2))*(1.+pow(CosThetaL,2))+1.333333*afb*(1.-pow(CosThetaK,2))*CosThetaL)) ;
   // Double_t result = 0.5625*((0.666667*fs+2.666667*transAs*TMath::Sqrt(3.*fs*(1.-fs)*(0.5+TMath::ATan(unboundFl)/TMath::Pi()))*CosThetaK)*(1-pow(CosThetaL,2))+(1-fs)*(2*(0.5+TMath::ATan(unboundFl)/TMath::Pi())*pow(CosThetaK,2)*(1.-pow(CosThetaL,2))+0.5*(0.5-TMath::ATan(unboundFl)/TMath::Pi())*(1.-pow(CosThetaK,2))*(1.+pow(CosThetaL,2))+(2.*(0.5-TMath::ATan(unboundFl)/TMath::Pi())*TMath::ATan(unboundAfb)/TMath::Pi())*(1.-pow(CosThetaK,2))*CosThetaL)) ;
+*/
+
+  Double_t result = 0.08952465549*(0.75*(1-Fl)*(1.-pow(CosThetaK, 2)) + Fl*pow(CosThetaK, 2) + 0.25*(1.-Fl)*(2*pow(CosThetaK, 2)-1.0-2.0*pow(CosThetaK, 2)*pow(CosThetaL, 2) + pow(CosThetaK, 2)) + Fl*(pow(CosThetaK, 2)-2.*pow(CosThetaK, 2)*pow(CosThetaL, 2)) + S3*(1.-pow(CosThetaK, 2))*(1.-pow(CosThetaL, 2))*(2.*TMath::Cos(2.*Phi)) + S4*(2.*pow(CosThetaK, 2)-1.)*(2.*pow(CosThetaL, 2)-1.)*(TMath::Cos(Phi)) + A5*(2.*pow(CosThetaK, 2)-1.)*(TMath::Sqrt(1.-pow(CosThetaL, 2)))*TMath::Cos(Phi) + A6*(1.-pow(CosThetaK, 2))*CosThetaL + S7*(2.*pow(CosThetaK, 2)-1.)*TMath::Sqrt(1.-pow(CosThetaL, 2))*TMath::Sin(Phi) + A8*(2.*pow(CosThetaK, 2)-1.)*(2.*pow(CosThetaL, 2)-1.) + A9*(1.-pow(CosThetaK, 2))*(1.-pow(CosThetaL, 2))*TMath::Sin(2*Phi));
 
   return result;
   // return result > 0 ? result : 0;

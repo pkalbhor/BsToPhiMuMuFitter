@@ -19,7 +19,7 @@ from BsToPhiMuMuFitter.anaSetup import q2bins, modulePath, bMassRegions
 from BsToPhiMuMuFitter.StdFitter import unboundFlToFl, unboundAfbToAfb, flToUnboundFl, afbToUnboundAfb
 
 from BsToPhiMuMuFitter.FitDBPlayer import FitDBPlayer
-from BsToPhiMuMuFitter.varCollection import Bmass, CosThetaK, CosThetaL, Mumumass, Phimass
+from BsToPhiMuMuFitter.varCollection import Bmass, CosThetaK, CosThetaL, Phi, Mumumass, Phimass
 
 from BsToPhiMuMuFitter.StdProcess import p, setStyle
 import BsToPhiMuMuFitter.dataCollection as dataCollection

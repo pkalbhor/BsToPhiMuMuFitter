@@ -1,0 +1,17 @@
+Command: python pdfCollection.py
+
+[1mRooFit v3.60 -- Developed by Wouter Verkerke and David Kirkby[0m 
+                Copyright (C) 2000-2013 NIKHEF, University of California & Stanford University
+                All rights reserved, please read http://roofit.sourceforge.net/license.txt
+
+('WspaceReader: wspaceName- ', 'wspace.bin1A')
+('ObjProvider: ', [('effi_sigA', [<functools.partial object at 0x7fef782a40a8>])])
+('HII', ['dataReader.USB', 'dataReader.argset', 'dataReader.SB', 'dataReader.LSB', 'dataReader.SR', 'dataReader.Fit', 'dataReader.tree', 'wspace.bin1A'])
+[<functools.partial object at 0x7fef782a40a8>]
+[#1] INFO:ObjectHandling -- RooWorkspace::import(wspace.bin1A) importing RooRealVar::CosThetaK
+[#1] INFO:ObjectHandling -- RooWorkspace::import(wspace.bin1A) importing RooRealVar::CosThetaL
+[#1] INFO:ObjectHandling -- RooWorkspace::import(wspace.bin1A) importing RooRealVar::Phi
+[#0] ERROR:InputArguments -- RooFormula::RooFormula(effi_sigA): compile error
+[#0] ERROR:InputArguments -- RooFormula::RooFormula(effi_sigA): compile error
+['dataReader.USB', 'dataReader.argset', 'dataReader.SB', 'dataReader.LSB', 'dataReader.SR', 'dataReader.Fit', 'dataReader.tree', 'wspace.bin1A']
+{'effi_sigA': <ROOT.RooFormulaVar object ("effi_sigA") at 0x521f5a0>}

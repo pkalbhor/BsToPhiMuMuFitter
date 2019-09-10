@@ -11,6 +11,9 @@ from math import sqrt
 
 # Shared global settings
 modulePath = os.path.abspath(os.path.dirname(__file__))
+dataFilePath = "/afs/cern.ch/work/p/pkalbhor/BFitter/BPhysicsData/data_v2/Modified_BDT_Modified_sel_BsToPhiMuMu_2016_combine_data_cut0_s0.root"
+UnfilteredMC = "/afs/cern.ch/work/p/pkalbhor/BFitter/BPhysicsData/data_v2/Modified_sel_BsToPhiMuMu_NofilterMC_signal_2016_mc.lite_nocut.root"
+sigMC = "/afs/cern.ch/work/p/pkalbhor/BFitter/BPhysicsData/data_v2/Modified_BDT_Modified_sel_BsToPhiMuMu_combine_MC_2016_mc.lite_cut0.root"
 
 # q2 bins
 q2bins = {}

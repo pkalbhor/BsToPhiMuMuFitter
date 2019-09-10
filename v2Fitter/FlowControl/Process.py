@@ -13,7 +13,7 @@ import ROOT
 
 class Process:
     """A unit of a run-able job."""
-    def __init__(self, name="myProcess", work_dir="testProcess", cfg=None):
+    def __init__(self, name="myProcess", work_dir="PlotDirectory", cfg=None):
         self.name = name
         self.work_dir = work_dir
         self.cwd = os.getcwd()

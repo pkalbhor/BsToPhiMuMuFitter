@@ -19,23 +19,32 @@ public:
   RooBtosllModel(const char *name, const char *title,
 	      RooAbsReal& _CosThetaL,
 	      RooAbsReal& _CosThetaK,
-	      RooAbsReal& _unboundAfb,
-	      RooAbsReal& _unboundFl,
-	      RooAbsReal& _fs,
-	      RooAbsReal& _transAs);
+          RooAbsReal& _Phi,
+	      RooAbsReal& _Fl,
+          RooAbsReal& _S3,
+          RooAbsReal& _S4,
+          RooAbsReal& _A5,
+          RooAbsReal& _A6,
+          RooAbsReal& _S7,
+          RooAbsReal& _A8,
+          RooAbsReal& _A9 );
   RooBtosllModel(const RooBtosllModel& other, const char* name=0) ;
   virtual TObject* clone(const char* newname) const { return new RooBtosllModel(*this,newname); }
   inline virtual ~RooBtosllModel() { }
 
 protected:
 
-  RooRealProxy CosThetaL ;
-  RooRealProxy CosThetaK ;
-  RooRealProxy unboundAfb ;
-  RooRealProxy unboundFl ;
-  RooRealProxy fs ;
-  RooRealProxy transAs ;
-  
+    RooRealProxy CosThetaL ;
+    RooRealProxy CosThetaK ;
+    RooRealProxy Phi ;
+    RooRealProxy Fl;
+    RooRealProxy S3;
+    RooRealProxy S4;
+    RooRealProxy A5;
+    RooRealProxy A6;
+    RooRealProxy S7;
+    RooRealProxy A8;
+    RooRealProxy A9;
   Double_t evaluate() const ;
 
 private:
