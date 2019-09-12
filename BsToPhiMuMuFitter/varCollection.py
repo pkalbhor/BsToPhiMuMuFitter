@@ -5,7 +5,7 @@
 # Description     : Shared object definition.
 
 from ROOT import RooRealVar
-from ROOT import RooArgSet
+from ROOT import RooArgSet, RooArgList
 
 Bmass = RooRealVar("Bmass","m_{K^{*}#mu#mu} [GeV]", 4.9, 5.9)
 CosThetaK = RooRealVar("CosThetaK", "cos#theta_{K}", -1., 1.)
@@ -18,7 +18,7 @@ Phimass = RooRealVar("Phimass", "m_{K^{+} K^{-}} [GeV]", 1.01, 1.03)
 Q2 = RooRealVar("Q2", "q^{2} [GeV^{2}]", 0.5, 20.)
 Triggers = RooRealVar("Triggers", "", 0, 100)
 Bdt = RooRealVar("Bdt", "", 0, 1)
-dataArgs = RooArgSet(
+arglist = RooArgList(
     Bmass,
     CosThetaK,
     CosThetaL,
@@ -27,9 +27,13 @@ dataArgs = RooArgSet(
     Mumumasserr,
     Phimass,
     Q2,
-    Triggers,
+    Triggers
    )
 
+dataArgs = RooArgSet(
+        arglist,
+        Bdt
+        )
 genCosThetaK = RooRealVar("genCosThetaK", "cos#theta_{K}", -1., 1.)
 genCosThetaL = RooRealVar("genCosThetaL", "cos#theta_{l}", -1., 1.)
 genPhi = RooRealVar("genPhi", "\Phi^{0}", -3.14, 3.14)

@@ -2,7 +2,8 @@
 
 # Setup pyROOT
 export SCRAM_ARCH=slc7_amd64_gcc48
-. /cvmfs/sft.cern.ch/lcg/app/releases/ROOT/6.18.02/x86_64-centos7-gcc48-opt/bin/thisroot.sh
+#. /cvmfs/sft.cern.ch/lcg/app/releases/ROOT/6.18.02/x86_64-centos7-gcc48-opt/bin/thisroot.sh
+. /cvmfs/sft.cern.ch/lcg/app/releases/ROOT/6.18.04/x86_64-centos7-gcc48-opt/bin/thisroot.sh
 
 # Inject to PYTHONPATH
 SOURCE="${BASH_SOURCE[0]}"

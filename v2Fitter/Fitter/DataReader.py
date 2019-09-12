@@ -67,6 +67,7 @@ class DataReader(Path):
     def createDataSets(self, cfg):
         """Create named dataset"""
         for name, cut in cfg:
+            print("DataReader.py- name, cut: ", name, cut)
             if self.cfg['preloadFile'] and os.path.exists(self.cfg['preloadFile']):
                 file_preload = ROOT.TFile(self.cfg['preloadFile'])
                 data = file_preload.Get(name)

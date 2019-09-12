@@ -14,7 +14,7 @@ import BsToPhiMuMuFitter.cpp
 
 from v2Fitter.Fitter.DataReader import DataReader
 from v2Fitter.Fitter.ObjProvider import ObjProvider
-from BsToPhiMuMuFitter.varCollection import dataArgs, Bmass, CosThetaL, CosThetaK, Phi, Phimass, dataArgsGEN
+from BsToPhiMuMuFitter.varCollection import dataArgs, Bmass, CosThetaL, CosThetaK, Phi, Bdt, Phimass, dataArgsGEN
 from BsToPhiMuMuFitter.anaSetup import q2bins, bMassRegions, cuts, cuts_noResVeto,  modulePath, dataFilePath, sigMC, UnfilteredMC
 
 import ROOT

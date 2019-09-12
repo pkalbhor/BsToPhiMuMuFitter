@@ -407,8 +407,8 @@ def customizePDFBuilder(self):
         'wspaceTag': sharedWspaceTagString.format(binLabel=q2bins[self.process.cfg['binKey']]['label']),
         'obj': OrderedDict([
             ('effi_sigA', [buildEffiSigA]),
-            ('f_sigA', [buildSigA]),
-            ('f_sigM', [buildSigM]),
+            #('f_sigA', [buildSigA]),
+            #('f_sigM', [buildSigM]),
             #('f_sig3D', [buildSig]),  # Include f_sig2D
             #('f_bkgCombA', [buildAnalyticBkgCombA]),
             #('f_bkgCombAAltA', [buildSmoothBkgCombA]),
