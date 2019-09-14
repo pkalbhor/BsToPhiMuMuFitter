@@ -43,15 +43,17 @@ Following functions to be overloaded to customize the full procedure...
         """Bind a RooMinimizer object to bind to self.minimizer at Runtime"""
         if self.pdf.InheritsFrom("RooAbsPdf"):
             self._nll = self.pdf.createNLL(self.data, *(self.cfg.get('createNLLOpt', [])))
+            print("InheritsFrom: RooAbsPdf")
         elif self.pdf.InheritsFrom("RooAbsReal"):
             self._nll = self.pdf.createChi2(self.data, *(self.cfg.get('createNLLOpt', [])))
+            print("InheritsFrom: RooAbsReal")
         else:
             self.logger.logERROR("No clear way to define the FCN value.")
             raise NotImplementedError
         self.minimizer = RooMinimizer(self._nll)
 
     def _preFitSteps(self):
-        """Abstract: Do something before main fit loop"""
+        print("""Abstract: Do something before main fit loop""")
         self.args = self.pdf.getParameters(self.data)
         self.ToggleConstVar(self.args, True)
         self.ToggleConstVar(self.args, False, self.cfg['argPattern'])

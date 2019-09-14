@@ -24,9 +24,11 @@ setupEffiFitter.update({
     'data': "effiHistReader.accXrec",
     'dataX': "effiHistReader.h_accXrec_fine_ProjectionX",
     'dataY': "effiHistReader.h_accXrec_fine_ProjectionY",
+    'dataZ': "effiHistReader.h_accXrec_fine_ProjectionZ",
     'pdf': "effi_sigA",
     'pdfX': "effi_cosl",
     'pdfY': "effi_cosK",
+    'pdfZ': "effi_Phi",
 })
 effiFitter = EfficiencyFitter(setupEffiFitter)
 

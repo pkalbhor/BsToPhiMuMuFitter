@@ -236,6 +236,7 @@ def buildAccXRecEffiHist(self):
     self.cfg['source']['effiHistReader.accXrec'] = RooDataHist("accXrec", "", RooArgList(CosThetaL, CosThetaK, Phi), ROOT.RooFit.Import(h3_accXrec))
     self.cfg['source']['effiHistReader.h_accXrec_fine_ProjectionX'] = fin.Get("h_accXrec_{0}_ProjectionX".format(self.process.cfg['binKey']))
     self.cfg['source']['effiHistReader.h_accXrec_fine_ProjectionY'] = fin.Get("h_accXrec_{0}_ProjectionY".format(self.process.cfg['binKey']))
+    self.cfg['source']['effiHistReader.h_accXrec_fine_ProjectionZ'] = fin.Get("h_accXrec_{0}_ProjectionZ".format(self.process.cfg['binKey']))
 
 effiHistReader = ObjProvider({
     'name': "effiHistReader",

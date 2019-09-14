@@ -29,7 +29,7 @@ predefined_sequence['fitSigMCGEN'] = [dataCollection.sigMCGENReader, pdfCollecti
 
 if __name__ == '__main__':
     # binKey = ['belowJpsiA', 'belowJpsiB', 'belowJpsiC', 'betweenPeaks', 'abovePsi2sA', 'abovePsi2sB', 'summary', 'summaryLowQ2']
-    binKey = ['belowJpsiC']
+    binKey = ['belowJpsiA']
     for b in binKey:
         p.cfg['binKey'] = b
         #  p.setSequence(predefined_sequence['buildEfficiecyHist'])
