@@ -78,6 +78,11 @@ class Plotter(Path):
     frameL.SetTitle("")
     frameL_binning = 10
 
+    frameP = Phi.frame()
+    frameP.SetMinimum(0)
+    frameP.SetTitle("")
+    frameP_binning = 10
+
     legend = ROOT.TLegend(.75, .70, .95, .90)
     legend.SetFillColor(0)
     legend.SetBorderSize(0)
@@ -92,7 +97,7 @@ class Plotter(Path):
             if p[0] == None:
                 self.logger.logERROR("pdfPlot not found in source manager.")
                 raise RuntimeError
-        args = p[0].getParameters(ROOT.RooArgSet(Bmass, CosThetaK, CosThetaL, Mumumass, Phimass))
+        args = p[0].getParameters(ROOT.RooArgSet(Bmass, CosThetaK, CosThetaL, Phi, Mumumass, Phimass))
         FitDBPlayer.initFromDB(self.process.dbplayer.odbfile, args, p[2])
         return p
 
@@ -146,9 +151,11 @@ class Plotter(Path):
     plotFrameB = staticmethod(functools.partial(plotFrame.__func__, **{'frame': frameB, 'binning': frameB_binning}))
     plotFrameK = staticmethod(functools.partial(plotFrame.__func__, **{'frame': frameK, 'binning': frameK_binning}))
     plotFrameL = staticmethod(functools.partial(plotFrame.__func__, **{'frame': frameL, 'binning': frameL_binning}))
+    plotFrameP = staticmethod(functools.partial(plotFrame.__func__, **{'frame': frameP, 'binning': frameP_binning}))
     plotFrameB_fine = staticmethod(functools.partial(plotFrame.__func__, **{'frame': frameB, 'binning': frameB_binning * 2}))
     plotFrameK_fine = staticmethod(functools.partial(plotFrame.__func__, **{'frame': frameK, 'binning': frameK_binning * 2}))
     plotFrameL_fine = staticmethod(functools.partial(plotFrame.__func__, **{'frame': frameL, 'binning': frameL_binning * 2}))
+    plotFrameP_fine = staticmethod(functools.partial(plotFrame.__func__, **{'frame': frameP, 'binning': frameP_binning * 2}))
 
     @classmethod
     def templateConfig(cls):
@@ -203,6 +210,7 @@ def plotSimpleBLK(self, pltName, dataPlots, pdfPlots, marks, frames='BLK'):
         'B': {'func': Plotter.plotFrameB_fine, 'tag': ""},
         'L': {'func': Plotter.plotFrameL, 'tag': "_cosl"},
         'K': {'func': Plotter.plotFrameK, 'tag': "_cosK"},
+        'P': {'func': Plotter.plotFrameP, 'tag': "_Phi"},
     }
 
     for frame in frames:
@@ -223,24 +231,25 @@ def plotEfficiency(self, data_name, pdf_name):
 
     binningL = ROOT.RooBinning(len(dataCollection.accXEffThetaLBins) - 1, dataCollection.accXEffThetaLBins)
     binningK = ROOT.RooBinning(len(dataCollection.accXEffThetaKBins) - 1, dataCollection.accXEffThetaKBins)
-
-    data_accXrec = self.process.sourcemanager.get("effiHistReader.h2_accXrec")
+    binningP = ROOT.RooBinning(len(dataCollection.accXEffPhiBins) - 1, dataCollection.accXEffPhiBins)
+     
+    data_accXrec = self.process.sourcemanager.get("effiHistReader.h3_accXrec")
     data_accXrec.Scale(100)
     data_accXrec.SetMinimum(0)
     #data_accXrec.SetMaximum(100 * 0.00015)  # Z axis in percentage
     data_accXrec.SetTitleOffset(1.6, "X")
     data_accXrec.SetTitleOffset(1.8, "Y")
     data_accXrec.SetTitleOffset(1.8, "Z")
-    data_accXrec.SetZTitle("Efficiency [%]")
+    data_accXrec.SetZTitle("phi") #("Efficiency [%]")
     data_accXrec.Draw("LEGO2")
-    h2_effi_sigA_fine = pdf.createHistogram("h2_effi_sigA_fine", CosThetaL, ROOT.RooFit.Binning(20), ROOT.RooFit.YVar(CosThetaK, ROOT.RooFit.Binning(20)))
-    h2_effi_sigA_fine.Scale(100)
-    h2_effi_sigA_fine.SetLineColor(2)
-    h2_effi_sigA_fine.Draw("SURF SAME")
+    h3_effi_sigA_fine = pdf.createHistogram("h3_effi_sigA_fine", CosThetaL, ROOT.RooFit.Binning(20), ROOT.RooFit.YVar(CosThetaK, ROOT.RooFit.Binning(20)), ROOT.RooFit.ZVar(Phi, ROOT.RooFit.Binning(20)))
+    h3_effi_sigA_fine.Scale(100)
+    h3_effi_sigA_fine.SetLineColor(2)
+    h3_effi_sigA_fine.Draw("SURF SAME")
     Plotter.latexCMSSim(.08, .93)
     Plotter.latexCMSExtra(.08, .89)
     self.latexQ2(.40, .93)
-    self.canvasPrint(pltName + "_2D")
+    self.canvasPrint(pltName + "_3D")
     data_accXrec.Scale(0.01)
 
     cloned_frameL = Plotter.frameL.emptyClone("cloned_frameL")
@@ -272,6 +281,21 @@ def plotEfficiency(self, data_name, pdf_name):
     self.latexQ2()
     #  Plotter.latex.DrawLatexNDC(.85, .89, "#chi^{{2}}={0:.2f}".format(cloned_frameK.chiSquare()))
     self.canvasPrint(pltName + "_cosK")
+
+    cloned_frameP = Plotter.frameP.emptyClone("cloned_frameP")
+    h_accXrec_fine_ProjectionZ = self.process.sourcemanager.get("effiHistReader.h_accXrec_fine_ProjectionZ")
+    data_accXrec_fine_ProjectionZ = ROOT.RooDataHist("data_accXrec_fine_ProjectionZ", "", ROOT.RooArgList(Phi), ROOT.RooFit.Import(h_accXrec_fine_ProjectionZ))
+    data_accXrec_fine_ProjectionZ.plotOn(cloned_frameP, ROOT.RooFit.Rescale(100))
+    pdfP = self.process.sourcemanager.get("effi_Phi")
+    pdfP.plotOn(cloned_frameP, ROOT.RooFit.Normalization(100, ROOT.RooAbsReal.Relative), *plotterCfg_sigStyleNoFill)
+    cloned_frameP.GetYaxis().SetTitle("Efficiency [%]")
+    cloned_frameP.SetMaximum(1.5 * cloned_frameP.GetMaximum())
+    cloned_frameP.Draw()
+    Plotter.latexCMSSim()
+    Plotter.latexCMSExtra()
+    self.latexQ2()
+    #  Plotter.latex.DrawLatexNDC(.85, .89, "#chi^{{2}}={0:.2f}".format(cloned_frameK.chiSquare()))
+    self.canvasPrint(pltName + "_Phi")
 types.MethodType(plotEfficiency, None, Plotter)
 
 def plotPostfitBLK(self, pltName, dataReader, pdfPlots):
@@ -683,7 +707,7 @@ plotterCfg['plots'] = {
 plotter = Plotter(plotterCfg)
 
 if __name__ == '__main__':
-    binKey = ['summaryLowQ2'] #, 'belowJpsiB', 'belowJpsiC', 'betweenPeaks', 'abovePsi2sA', 'abovePsi2sB', 'summary', 'summaryLowQ2']
+    binKey = ['belowJpsiA'] #, 'belowJpsiB', 'belowJpsiC', 'betweenPeaks', 'abovePsi2sA', 'abovePsi2sB', 'summary', 'summaryLowQ2']
     for b in binKey:
         p.cfg['binKey'] = b
         print (p.cfg)

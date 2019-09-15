@@ -10,7 +10,7 @@ from ROOT import RooArgSet, RooArgList
 Bmass = RooRealVar("Bmass","m_{K^{*}#mu#mu} [GeV]", 4.9, 5.9)
 CosThetaK = RooRealVar("CosThetaK", "cos#theta_{K}", -1., 1.)
 CosThetaL = RooRealVar("CosThetaL", "cos#theta_{l}", -1., 1.)
-Phi = RooRealVar("Phi","\Phi^{0}", -3.15, 3.15)
+Phi = RooRealVar("Phi","\phi", -3.15, 3.15)
 Mumumass = RooRealVar("Mumumass", "m_{#mu#mu} [GeV]", 0., 10.)
 Mumumasserr = RooRealVar("Mumumasserr", "Error of m_{#mu#mu} [GeV]", 0., 10.)
 Phimass = RooRealVar("Phimass", "m_{K^{+} K^{-}} [GeV]", 1.01, 1.03)
