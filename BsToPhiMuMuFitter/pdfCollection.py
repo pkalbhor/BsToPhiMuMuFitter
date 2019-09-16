@@ -116,27 +116,33 @@ f_effiSigA_format['belowJpsiA'] = ["l1[0,-0.5,0.5]", "l2[0.2,0.1,2]", "l3[0.1,0,
 
 f_effiSigA_format['belowJpsiB'] = ["l1[0,-0.5,0.5]", "l2[0.2,0.1,2]", "l3[0.1,0,10]", "l4[-0.8,-1,-0.1]", "l5[0.5,0.1,2]", "l6[0.1,0,10]", "l7[0.8,0.1,1]", "l8[0.2,0.1,2]"] \
     + ["k{0}[-10,10]".format(i) for i in range(1, 6 + 1)] \
+    + ["p{0}[-10,10]".format(i) for i in range(1, 6 + 1)] \
     + ["effi_norm[0,1]", "hasXTerm[0]"] + ["x{0}[-2,2]".format(i) for i in range(15 + 1)] \
     + ["EXPR::effi_cosl('{pdf}',{args})".format(pdf=pdfL, args="{CosThetaL," + ', '.join(["l{0}".format(i) for i in range(1, 9)]) + "}")] \
     + ["EXPR::effi_cosK('{pdf}',{args})".format(pdf=pdfK, args="{CosThetaK," + ', '.join(["k{0}".format(i) for i in range(1, 7)]) + "}")] \
+    + ["EXPR::effi_Phi('{pdf}',{args})".format(pdf=pdfP, args="{Phi," + ', '.join(["p{0}".format(i) for i in range(1, 7)]) + "}")] \
     + ["expr::effi_xTerm('1+hasXTerm*({xTerm})',{args})".format(xTerm=xTerm, args="{CosThetaL,CosThetaK,hasXTerm," + ','.join(["x{0}".format(i) for i in range(16)]) + "}")] \
-    + ["expr::effi_sigA('effi_norm*({pdfL})*({pdfK})*(1+hasXTerm*({xTerm}))', {args})".format(
+    + ["expr::effi_sigA('effi_norm*({pdfL})*({pdfK})*({pdfP})*(1+hasXTerm*({xTerm}))', {args})".format(
         pdfL=pdfL,
         pdfK=pdfK,
+        pdfP=pdfP,
         xTerm=xTerm,
-        args="{CosThetaL,CosThetaK,hasXTerm,effi_norm," + ','.join(["l{0}".format(i) for i in range(1, 9)] + ["k{0}".format(i) for i in range(1, 7)] + ["x{0}".format(i) for i in range(16)]) + "}")]
+        args="{CosThetaL,CosThetaK, Phi, hasXTerm, effi_norm," + ','.join(["l{0}".format(i) for i in range(1, 9)] + ["k{0}".format(i) for i in range(1, 7)] + ["p{0}".format(i) for i in range(1, 7)] + ["x{0}".format(i) for i in range(16)]) + "}")]
 
 f_effiSigA_format['summaryLowQ2'] = ["l1[0,-0.5,0.5]", "l2[0.2,0.1,2]", "l3[0.1,0,10]", "l4[-0.8,-1,-0.1]", "l5[0.5,0.1,2]", "l6[0.1,0,10]", "l7[0.8,0.1,1]", "l8[0.2,0.1,2]"] \
     + ["k{0}[-10,10]".format(i) for i in range(1, 6 + 1)] \
+    + ["p{0}[-10,10]".format(i) for i in range(1, 6 + 1)] \
     + ["effi_norm[0,1]", "hasXTerm[0]"] + ["x{0}[-2,2]".format(i) for i in range(15 + 1)] \
     + ["EXPR::effi_cosl('{pdf}',{args})".format(pdf=pdfL, args="{CosThetaL," + ', '.join(["l{0}".format(i) for i in range(1, 9)]) + "}")] \
     + ["EXPR::effi_cosK('{pdf}',{args})".format(pdf=pdfK, args="{CosThetaK," + ', '.join(["k{0}".format(i) for i in range(1, 7)]) + "}")] \
+    + ["EXPR::effi_Phi('{pdf}',{args})".format(pdf=pdfP, args="{Phi," + ', '.join(["p{0}".format(i) for i in range(1, 7)]) + "}")] \
     + ["expr::effi_xTerm('1+hasXTerm*({xTerm})',{args})".format(xTerm=xTerm, args="{CosThetaL,CosThetaK,hasXTerm," + ','.join(["x{0}".format(i) for i in range(16)]) + "}")] \
-    + ["expr::effi_sigA('effi_norm*({pdfL})*({pdfK})*(1+hasXTerm*({xTerm}))', {args})".format(
+    + ["expr::effi_sigA('effi_norm*({pdfL})*({pdfK})*({pdfP})*(1+hasXTerm*({xTerm}))', {args})".format(
         pdfL=pdfL,
         pdfK=pdfK,
+        pdfP=pdfP,
         xTerm=xTerm,
-        args="{CosThetaL,CosThetaK,hasXTerm,effi_norm," + ','.join(["l{0}".format(i) for i in range(1, 9)] + ["k{0}".format(i) for i in range(1, 7)] + ["x{0}".format(i) for i in range(16)]) + "}")]
+        args="{CosThetaL,CosThetaK, Phi, hasXTerm, effi_norm," + ','.join(["l{0}".format(i) for i in range(1, 9)] + ["k{0}".format(i) for i in range(1, 7)] + ["p{0}".format(i) for i in range(1, 7)] + ["x{0}".format(i) for i in range(16)]) + "}")]
 
 setupBuildEffiSigA = {
     'objName': "effi_sigA",
@@ -422,7 +428,7 @@ stdPDFBuilder.customize = types.MethodType(customizePDFBuilder, stdPDFBuilder)
 
 if __name__ == '__main__':
     #  binKey = ['belowJpsiA', 'belowJpsiB', 'belowJpsiC', 'betweenPeaks', 'abovePsi2sA','abovePsi2sB', 'summary', 'summaryLowQ2']
-    binKey = ['belowJpsiA']
+    binKey = ['summaryLowQ2']
     for b in binKey:
         p.cfg['binKey'] = b
         p.setSequence([dataCollection.dataReader, stdWspaceReader, stdPDFBuilder])

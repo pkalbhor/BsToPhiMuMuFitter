@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 # vim: set sw=4 sts=4 fdm=indent fdl=0 fdn=3 ft=python et:
 
-import os
+import os, sys
 import re
 import math
 import types
@@ -232,7 +232,7 @@ def plotEfficiency(self, data_name, pdf_name):
     binningL = ROOT.RooBinning(len(dataCollection.accXEffThetaLBins) - 1, dataCollection.accXEffThetaLBins)
     binningK = ROOT.RooBinning(len(dataCollection.accXEffThetaKBins) - 1, dataCollection.accXEffThetaKBins)
     binningP = ROOT.RooBinning(len(dataCollection.accXEffPhiBins) - 1, dataCollection.accXEffPhiBins)
-     
+    
     data_accXrec = self.process.sourcemanager.get("effiHistReader.h3_accXrec")
     data_accXrec.Scale(100)
     data_accXrec.SetMinimum(0)
@@ -241,7 +241,11 @@ def plotEfficiency(self, data_name, pdf_name):
     data_accXrec.SetTitleOffset(1.8, "Y")
     data_accXrec.SetTitleOffset(1.8, "Z")
     data_accXrec.SetZTitle("phi") #("Efficiency [%]")
-    data_accXrec.Draw("LEGO2")
+    self.canvas.SetRightMargin(1.0)
+    data_accXrec.GetXaxis().CenterTitle()
+    data_accXrec.GetYaxis().CenterTitle()
+    data_accXrec.GetZaxis().CenterTitle()
+    data_accXrec.Draw("LEGO2 COLZ")
     h3_effi_sigA_fine = pdf.createHistogram("h3_effi_sigA_fine", CosThetaL, ROOT.RooFit.Binning(20), ROOT.RooFit.YVar(CosThetaK, ROOT.RooFit.Binning(20)), ROOT.RooFit.ZVar(Phi, ROOT.RooFit.Binning(20)))
     h3_effi_sigA_fine.Scale(100)
     h3_effi_sigA_fine.SetLineColor(2)
@@ -251,7 +255,7 @@ def plotEfficiency(self, data_name, pdf_name):
     self.latexQ2(.40, .93)
     self.canvasPrint(pltName + "_3D")
     data_accXrec.Scale(0.01)
-
+    '''
     cloned_frameL = Plotter.frameL.emptyClone("cloned_frameL")
     h_accXrec_fine_ProjectionX = self.process.sourcemanager.get("effiHistReader.h_accXrec_fine_ProjectionX")
     data_accXrec_fine_ProjectionX = ROOT.RooDataHist("data_accXrec_fine_ProjectionX", "", ROOT.RooArgList(CosThetaL), ROOT.RooFit.Import(h_accXrec_fine_ProjectionX))
@@ -295,7 +299,7 @@ def plotEfficiency(self, data_name, pdf_name):
     Plotter.latexCMSExtra()
     self.latexQ2()
     #  Plotter.latex.DrawLatexNDC(.85, .89, "#chi^{{2}}={0:.2f}".format(cloned_frameK.chiSquare()))
-    self.canvasPrint(pltName + "_Phi")
+    self.canvasPrint(pltName + "_Phi")'''
 types.MethodType(plotEfficiency, None, Plotter)
 
 def plotPostfitBLK(self, pltName, dataReader, pdfPlots):
@@ -707,7 +711,8 @@ plotterCfg['plots'] = {
 plotter = Plotter(plotterCfg)
 
 if __name__ == '__main__':
-    binKey = ['belowJpsiA'] #, 'belowJpsiB', 'belowJpsiC', 'betweenPeaks', 'abovePsi2sA', 'abovePsi2sB', 'summary', 'summaryLowQ2']
+    #binKey = ['summary']#, 'belowJpsiB', 'belowJpsiC', 'betweenPeaks', 'abovePsi2sA', 'abovePsi2sB', 'summary', 'summaryLowQ2']
+    binKey = [sys.argv[1]]
     for b in binKey:
         p.cfg['binKey'] = b
         print (p.cfg)
@@ -723,3 +728,10 @@ if __name__ == '__main__':
         p.beginSeq()
         p.runSeq()
         p.endSeq()
+
+        #p.reset()
+        #dataCollection.dataReader.reset()
+        #stdWspaceReader.reset()
+        #stdPDFBuilder.reset()
+
+
